@@ -78,6 +78,7 @@ public class App {
           System.out.println(e1.getMessage());
           System.out.println("-------------------------------------");
         }
+        System.out.println("");
         printMenu();
       }
     }
@@ -143,7 +144,7 @@ public class App {
 
   private static void calculateDividendYield(Stock stock, double price) {
     double result = stockService.calculateDividendYield(stock, price);
-    System.out.println("Dividend Yield: " + result);
+    printResult("Dividend Yield: " + result);
   }
 
   private static void calculatePERatio(Stock stock, double price) {
@@ -182,5 +183,11 @@ public class App {
     stockService.addStock(new Stock("ALE", StockType.COMMON, 23, 0, 60));
     stockService.addStock(new Stock("GIN", StockType.PREFFERED, 8, 2, 100));
     stockService.addStock(new Stock("JOE", StockType.PREFFERED, 13, 0, 250));
+  }
+
+  private static void printResult(String result) {
+    System.out.println("-------------------------------------");
+    System.out.println(result);
+    System.out.println("-------------------------------------");
   }
 }
