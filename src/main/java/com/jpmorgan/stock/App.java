@@ -32,9 +32,7 @@ public class App {
     String choice= null;
     while (true) {
       choice = scanner.nextLine();
-      if ("m".equals(choice)) {
-        printMenu();
-      } else if ("q".equals(choice)) {
+      if ("q".equals(choice)) {
         scanner.close();
         System.exit(0);
       } else {
@@ -135,7 +133,6 @@ public class App {
 
   private static void printMenu() {
     System.out.println("JPMorgan - Super simple stock market");
-    System.out.println("m: Show menu");
     System.out.println("1: Calculate dividend yield for stock");
     System.out.println("2: Calculate P/E ratio for stock");
     System.out.println("3: Record a trade for stock");
