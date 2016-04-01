@@ -21,18 +21,19 @@ public class App {
 
   private static StockService stockService = StockServiceImpl.getInstance();
   private static TradeService tradeService = TradeServiceImpl.getInstance();
+  private static Scanner scanner;
 
   public static void main(String[] args) {
     initStocks();
     printMenu();
 
-    Scanner scanner = new Scanner(System.in);
+    scanner = new Scanner(System.in);
     String choice= null;
     while (true) {
       choice = scanner.nextLine();
       if ("m".equals(choice)) {
         printMenu();
-      }else if ("q".equals(choice)) {
+      } else if ("q".equals(choice)) {
         scanner.close();
         System.exit(0);
       } else {
@@ -43,24 +44,24 @@ public class App {
 
           switch (option) {
             case 1:
-              stockFromUser = getStockFromUser(scanner);
-              priceFromUser = getStockPriceFromUser(scanner);
+              stockFromUser = getStockFromUser();
+              priceFromUser = getStockPriceFromUser();
               calculateDividendYield(stockFromUser, priceFromUser);
               break;
             case 2:
-              stockFromUser = getStockFromUser(scanner);
-              priceFromUser = getStockPriceFromUser(scanner);
+              stockFromUser = getStockFromUser();
+              priceFromUser = getStockPriceFromUser();
               calculatePERatio(stockFromUser, priceFromUser);
               break;
             case 3:
-              stockFromUser = getStockFromUser(scanner);
-              int quantityFromUser = getQuantityFromUser(scanner);
-              TradeType tradeTypeFromUser = getTradeType(scanner);
-              priceFromUser = getStockPriceFromUser(scanner);
+              stockFromUser = getStockFromUser();
+              int quantityFromUser = getQuantityFromUser();
+              TradeType tradeTypeFromUser = getTradeType();
+              priceFromUser = getStockPriceFromUser();
               recordTrade(stockFromUser, quantityFromUser, tradeTypeFromUser, priceFromUser);
               break;
             case 4:
-              stockFromUser = getStockFromUser(scanner);
+              stockFromUser = getStockFromUser();
               calculateVolumeWeightedStockPrice(stockFromUser);
               break;
             case 5:
@@ -76,26 +77,26 @@ public class App {
     }
   }
 
-  private static Stock getStockFromUser(Scanner scanner) {
+  private static Stock getStockFromUser() {
     System.out.println("Please input stock symbol");
     String stockSymbol = scanner.nextLine();
     Stock stock = stockService.getStock(stockSymbol);
     return stock;
   }
 
-  private static double getStockPriceFromUser(Scanner scanner) {
+  private static double getStockPriceFromUser() {
     System.out.println("Please input stock price");
     String stockPrice = scanner.nextLine();
     return Double.parseDouble(stockPrice);
   }
 
-  private static TradeType getTradeType(Scanner scanner) {
+  private static TradeType getTradeType() {
     System.out.println("Please input trade type (BUY/SELL)");
     String type = scanner.nextLine();
     return TradeType.valueOf(type.toUpperCase());
   }
 
-  private static int getQuantityFromUser(Scanner scanner) {
+  private static int getQuantityFromUser() {
     System.out.println("Please input quantity");
     String quantity = scanner.nextLine();
     return Integer.parseInt(quantity);
