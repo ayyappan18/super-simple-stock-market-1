@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
+import com.jpmorgan.stock.exception.SuperSimpleStockMarketException;
 import com.jpmorgan.stock.model.Stock;
 import com.jpmorgan.stock.model.StockType;
 import com.jpmorgan.stock.model.Trade;
@@ -70,36 +71,66 @@ public class App {
             default:
               break;
           }
-        } catch(NumberFormatException e) {
-          System.out.println("Invalid Option");
+        } catch (NumberFormatException e) {
+          System.out.println("-------------------------------------");
+          System.out.println("Invalid option");
+          System.out.println("-------------------------------------");
+        } catch (SuperSimpleStockMarketException e1) {
+          System.out.println("-------------------------------------");
+          System.out.println(e1.getMessage());
+          System.out.println("-------------------------------------");
         }
+        printMenu();
       }
     }
   }
 
-  private static Stock getStockFromUser() {
+  private static Stock getStockFromUser() throws SuperSimpleStockMarketException {
     System.out.println("Please input stock symbol");
     String stockSymbol = scanner.nextLine();
     Stock stock = stockService.getStock(stockSymbol);
+    if (stock == null) {
+      throw new SuperSimpleStockMarketException("Stock not found");
+    }
     return stock;
   }
 
-  private static double getStockPriceFromUser() {
+  private static double getStockPriceFromUser() throws SuperSimpleStockMarketException {
     System.out.println("Please input stock price");
     String stockPrice = scanner.nextLine();
-    return Double.parseDouble(stockPrice);
+    try {
+      double result = Double.parseDouble(stockPrice);
+      if (result <= 0) {
+        throw new SuperSimpleStockMarketException("Invalid price: Must be greated than 0");
+      }
+      return result;
+    } catch (NumberFormatException e) {
+      throw new SuperSimpleStockMarketException("Invalid price: Not a number");
+    }
   }
 
-  private static TradeType getTradeType() {
+  private static TradeType getTradeType() throws SuperSimpleStockMarketException {
     System.out.println("Please input trade type (BUY/SELL)");
     String type = scanner.nextLine();
-    return TradeType.valueOf(type.toUpperCase());
+    try {
+      return TradeType.valueOf(type.toUpperCase());
+    } catch (IllegalArgumentException e) {
+      throw new SuperSimpleStockMarketException("Invalid trade type: Must be BUY or SELL");
+    }
   }
 
-  private static int getQuantityFromUser() {
+  private static int getQuantityFromUser() throws SuperSimpleStockMarketException {
     System.out.println("Please input quantity");
     String quantity = scanner.nextLine();
-    return Integer.parseInt(quantity);
+    try {
+      int result = Integer.parseInt(quantity);
+      if (result <= 0) {
+        throw new SuperSimpleStockMarketException("Invalid quantity: Must be greated than 0");
+      }
+      return result;
+    } catch (NumberFormatException e) {
+      throw new SuperSimpleStockMarketException("Invalid quantity: Not a number");
+    }
   }
 
   private static void printMenu() {
@@ -125,8 +156,12 @@ public class App {
 
   private static void calculateVolumeWeightedStockPrice(Stock stock) {
     List<Trade> trades = tradeService.getTrades(stock, 15);
-    double result = stockService.calculateVolumeWeightedStockPrice(trades);
-    System.out.println("Volume Weighted Stock Price: " + result);
+    if (trades == null || trades.isEmpty()) {
+      System.out.println("Volume Weighted Stock Price: No trades");
+    } else {
+      double result = stockService.calculateVolumeWeightedStockPrice(trades);
+      System.out.println("Volume Weighted Stock Price: " + result);
+    }
   }
 
   private static void recordTrade(Stock stock, int quantity, TradeType type, double price) {
