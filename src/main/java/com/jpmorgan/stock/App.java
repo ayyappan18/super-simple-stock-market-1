@@ -70,13 +70,9 @@ public class App {
               break;
           }
         } catch (NumberFormatException e) {
-          System.out.println("-------------------------------------");
-          System.out.println("Invalid option");
-          System.out.println("-------------------------------------");
+          printResult("Invalid Option");
         } catch (SuperSimpleStockMarketException e1) {
-          System.out.println("-------------------------------------");
-          System.out.println(e1.getMessage());
-          System.out.println("-------------------------------------");
+          printResult(e1.getMessage());
         }
         System.out.println("");
         printMenu();
@@ -149,31 +145,31 @@ public class App {
 
   private static void calculatePERatio(Stock stock, double price) {
      double result = stockService.calculatePERatio(stock, price);
-     System.out.println("PE Ratio: " + result);
+     printResult("PE Ratio: " + result);
   }
 
   private static void calculateVolumeWeightedStockPrice(Stock stock) {
     List<Trade> trades = tradeService.getTrades(stock, 15);
     if (trades == null || trades.isEmpty()) {
-      System.out.println("Volume Weighted Stock Price: No trades");
+      printResult("Volume Weighted Stock Price: No trades");
     } else {
       double result = stockService.calculateVolumeWeightedStockPrice(trades);
-      System.out.println("Volume Weighted Stock Price: " + result);
+      printResult("Volume Weighted Stock Price: " + result);
     }
   }
 
   private static void recordTrade(Stock stock, int quantity, TradeType type, double price) {
     tradeService.recordTrade(new Trade(stock, Calendar.getInstance().getTime(),
         quantity, type, price));
-    System.out.println("Trade recorded");
+    printResult("Trade recorded");
   }
 
   private static void calculateGBCE() {
     List<Trade> allTrades = tradeService.getAllTrades();
     if (allTrades == null || allTrades.isEmpty()) {
-      System.out.println("Unable to calculate GBCE: No trades");
+      printResult("Unable to calculate GBCE: No trades");
     } else {
-      System.out.println("GBCE: " + stockService.calculateGBCE(allTrades));
+      printResult("GBCE: " + stockService.calculateGBCE(allTrades));
     }
   }
 
