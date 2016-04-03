@@ -31,7 +31,7 @@ public class StockServiceImplTest {
   public void setup() {
     stockService = new StockServiceImpl();
     stock1 = new Stock("TEST", StockType.COMMON, 4, 0, 10);
-    stock2 = new Stock("TEST2", StockType.PREFFERED, 3, 2, 1);
+    stock2 = new Stock("TEST2", StockType.Preferred, 3, 2, 1);
   }
 
   @Test

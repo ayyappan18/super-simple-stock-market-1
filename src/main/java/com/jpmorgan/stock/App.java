@@ -20,8 +20,10 @@ import com.jpmorgan.stock.service.impl.TradeServiceImpl;
  */
 public class App {
 
+  // @Autowired - used singleton pattern.
   private static StockService stockService = StockServiceImpl.getInstance();
   private static TradeService tradeService = TradeServiceImpl.getInstance();
+  
   private static Scanner scanner;
 
   public static void main(String[] args) {
@@ -177,8 +179,8 @@ public class App {
     stockService.addStock(new Stock("TEA", StockType.COMMON, 0, 0, 100));
     stockService.addStock(new Stock("POP", StockType.COMMON, 8, 0, 100));
     stockService.addStock(new Stock("ALE", StockType.COMMON, 23, 0, 60));
-    stockService.addStock(new Stock("GIN", StockType.PREFFERED, 8, 2, 100));
-    stockService.addStock(new Stock("JOE", StockType.PREFFERED, 13, 0, 250));
+    stockService.addStock(new Stock("GIN", StockType.PREFERRED, 8, 2, 100));
+    stockService.addStock(new Stock("JOE", StockType.PREFERRED, 13, 0, 250));
   }
 
   private static void printResult(String result) {

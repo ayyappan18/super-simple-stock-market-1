@@ -2,6 +2,10 @@ package com.jpmorgan.stock.model;
 
 import java.util.Date;
 
+/**
+ * Trade model
+ * @author nd@nathandeamer.com
+ */
 public class Trade implements Comparable<Trade> {
 
   private Stock stock;

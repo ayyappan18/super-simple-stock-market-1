@@ -11,6 +11,10 @@ import com.jpmorgan.stock.model.StockType;
 import com.jpmorgan.stock.model.Trade;
 import com.jpmorgan.stock.service.StockService;
 
+/**
+ * Implementation of {@code StockService}
+ * @author nd@nathandeamer.com
+ */
 public class StockServiceImpl implements StockService {
 
   private static StockServiceImpl instance = null;
@@ -22,29 +26,45 @@ public class StockServiceImpl implements StockService {
     return instance;
   }
 
+  // @Autowired
   private StockDao stockDao = new MemoryStockDao();
 
+  /**
+   * @inheritDoc
+   */
   public void addStock(Stock stock) {
     stockDao.addStock(stock);
   }
 
+  /**
+   * @inheritDoc
+   */
   public Stock getStock(String symbol) {
     return stockDao.getStock(symbol);
   }
 
+  /**
+   * @inheritDoc
+   */
   public double calculateDividendYield(Stock stock, double price) {
-    if (StockType.PREFFERED.equals(stock.getType())) {
+    if (StockType.PREFERRED.equals(stock.getType())) {
       return (stock.getFixedDividend() * stock.getParValue()) / price;
     }
     double result = stock.getLastDividend() / price;
     return round(result, 2);
   }
 
+  /**
+   * @inheritDoc
+   */
   public double calculatePERatio(Stock stock, double price) {
     double result = price / stock.getLastDividend();
     return round(result, 2);
   }
 
+  /**
+   * @inheritDoc
+   */
   public double calculateVolumeWeightedStockPrice(List<Trade> trades) {
     double sumOfPriceQuantity = 0;
     int sumOfQuantity = 0;
@@ -56,7 +76,10 @@ public class StockServiceImpl implements StockService {
     double result = sumOfPriceQuantity / sumOfQuantity;
     return round(result, 2);
   }
-
+  
+  /**
+   * @inheritDoc
+   */
   public double calculateGBCE(List<Trade> trades) {
     double total = 1;
     for (Trade trade : trades) {
@@ -66,7 +89,13 @@ public class StockServiceImpl implements StockService {
     return round(result, 2);
   }
 
-  public static double round(double value, int places) {
+  /**
+   * Round up to number of places
+   * @param value
+   * @param places
+   * @return
+   */
+  private static double round(double value, int places) {
     BigDecimal bd = new BigDecimal(value);
     bd = bd.setScale(places, RoundingMode.HALF_UP);
     return bd.doubleValue();

@@ -29,7 +29,7 @@ public class TradeDaoTest {
   public void setup() {
     tradeDao = new MemoryTradeDao();
     stock = new Stock("Test", StockType.COMMON, 1, 0, 100);
-    stock2 = new Stock("Test2", StockType.PREFFERED, 1, 0, 100);
+    stock2 = new Stock("Test2", StockType.Preferred, 1, 0, 100);
     stock3 = new Stock("Tes3", StockType.COMMON, 1, 0, 100);
   }
 

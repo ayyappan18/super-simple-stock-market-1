@@ -13,10 +13,17 @@ import com.jpmorgan.stock.dao.TradeDao;
 import com.jpmorgan.stock.model.Stock;
 import com.jpmorgan.stock.model.Trade;
 
+/**
+ * In memory implementation of {@code TradeDao}
+ * @author nd@nathandeamer.com
+ */
 public class MemoryTradeDao implements TradeDao {
 
   private Map<String, List<Trade>> tradeMap = new HashMap<String, List<Trade>>(); // Performance
 
+  /**
+   * @inheritDoc
+   */
   public void addTrade(Trade trade) {
     List<Trade> trades = new ArrayList<Trade>();
     if (tradeMap.containsKey(trade.getStock().getSymbol())) {
@@ -26,6 +33,9 @@ public class MemoryTradeDao implements TradeDao {
     tradeMap.put(trade.getStock().getSymbol(), trades);
   }
 
+  /**
+   * @inheritDoc
+   */
   public List<Trade> getTrades(Stock stock, int minutes) {
     List<Trade> result = new ArrayList<Trade>();
     Date afterDate = getDateXMinutesEarlier(minutes);
@@ -42,6 +52,9 @@ public class MemoryTradeDao implements TradeDao {
     return result;
   }
 
+  /**
+   * @inheritDoc
+   */
   public List<Trade> getAllTrades() {
     List<Trade> result = new ArrayList<Trade>();
     for (String stockSymbol: tradeMap.keySet()) {
@@ -50,6 +63,11 @@ public class MemoryTradeDao implements TradeDao {
     return result;
   }
 
+  /**
+   * Return a {@code Date} which is x number of minutes earlier than current time.
+   * @param minutes
+   * @return
+   */
   private Date getDateXMinutesEarlier(int minutes){
     Calendar c = Calendar.getInstance();
     c.add(Calendar.MINUTE, -minutes);

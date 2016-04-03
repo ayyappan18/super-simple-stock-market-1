@@ -1,5 +1,9 @@
 package com.jpmorgan.stock.model;
 
+/**
+ * Stock model
+ * @author nd@nathandeamer.com
+ */
 public class Stock {
 
   private String symbol;
