@@ -26,7 +26,6 @@ public class StockServiceImpl implements StockService {
     return instance;
   }
 
-  // @Autowired
   private StockDao stockDao = new MemoryStockDao();
 
   /**

@@ -23,7 +23,6 @@ public class TradeServiceImpl implements TradeService {
     return instance;
   }
 
-  // @Autowired
   private TradeDao tradeDao = new MemoryTradeDao();
 
   /**

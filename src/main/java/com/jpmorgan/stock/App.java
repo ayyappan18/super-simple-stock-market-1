@@ -20,7 +20,6 @@ import com.jpmorgan.stock.service.impl.TradeServiceImpl;
  */
 public class App {
 
-  // @Autowired - used singleton pattern.
   private static StockService stockService = StockServiceImpl.getInstance();
   private static TradeService tradeService = TradeServiceImpl.getInstance();
   
